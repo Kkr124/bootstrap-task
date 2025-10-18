@@ -1,42 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Contact — Bootstrap Task</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/css/style.css" rel="stylesheet">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Contact — UI Remix</title>
+
+<!-- Bootstrap & Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+  :root{
+    --violet:#6c5ce7;
+    --cyan:#0ea5e9;
+    --ink:#0b0f1a;
+    --ink-2:#0f172a;
+    --muted:#9aa6c2;
+    --radius-xl:1.25rem;
+  }
+  html{scroll-behavior:smooth}
+  body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;background:#0a0f18;color:#e6ecff}
+  .text-weak{color:var(--muted)}
+  .section{padding-block:5rem}
+
+  /* NAVBAR */
+  .navbar{backdrop-filter:saturate(180%) blur(10px)}
+  .navbar .nav-link{font-weight:600}
+
+  /* HERO */
+  .hero{
+    min-height:48svh;
+    display:grid; place-items:center;
+    position:relative; overflow:hidden;
+    background:
+      radial-gradient(1200px 600px at -10% -10%, rgba(108,92,231,.25), transparent 60%),
+      radial-gradient(1000px 580px at 110% -10%, rgba(14,165,233,.25), transparent 55%),
+      linear-gradient(180deg,#0b0f1a 0%, #0f172a 60%, #0b0f1a 100%);
+  }
+  .hero::before,.hero::after{
+    content:""; position:absolute; inset:-40%;
+    background:conic-gradient(from 0deg, rgba(108,92,231,.18), rgba(14,165,233,.18), rgba(255,94,156,.12), rgba(108,92,231,.18));
+    filter:blur(90px); animation:swirl 22s linear infinite;
+  }
+  .hero::after{animation-direction:reverse; animation-duration:28s; opacity:.7}
+  @keyframes swirl{to{transform:rotate(360deg)}}
+  .text-gradient{
+    background:linear-gradient(90deg,var(--cyan),var(--violet));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .badge-soft{
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.18);
+    color:#e9edff;
+  }
+
+  /* CARDS */
+  .card, .btn{border-radius:var(--radius-xl)}
+  .glass{
+    background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
+    border:1px solid rgba(255,255,255,.14);
+    border-radius:var(--radius-xl);
+    box-shadow:0 24px 60px rgba(0,0,0,.35);
+  }
+  .card-glow{
+    background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+    border:1px solid rgba(255,255,255,.14);
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .card-glow:hover{
+    transform: translateY(-6px);
+    border-color: rgba(14,165,233,.45);
+    box-shadow:0 26px 70px rgba(14,165,233,.12);
+  }
+
+  /* FORM */
+  .form-control, .form-select{background:rgba(255,255,255,.06); border-color:rgba(255,255,255,.2); color:#e6ecff}
+  .form-control:focus, .form-select:focus{border-color:#46b2ff; box-shadow:0 0 0 .2rem rgba(14,165,233,.25)}
+  .required::after{content:" *"; color:#ff8faa; font-weight:700}
+
+  /* MAP */
+  .map-wrap{border-radius:1rem; overflow:hidden; border:1px solid rgba(255,255,255,.14)}
+
+  /* FOOTER */
+  footer{background:#0a0f18}
+  footer a{color:#cbd5e1;text-decoration:none}
+  footer a:hover{color:#fff}
+</style>
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom sticky-top">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="index.html"><i class="bi bi-compass me-2"></i>UI Remix</a>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark bg-opacity-75 sticky-top border-bottom">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="index.html"><i class="bi bi-compass me-2"></i>UI Remix</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav ms-auto gap-lg-2">
+        <li class="nav-item"><a class="nav-link" href="index.html#projects">Projects</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+      </ul>
     </div>
-  </nav>
-  <section class="py-5">
-    <div class="container">
-      <h1 class="text-center mb-4">Contact Us</h1>
-      <form name="contact" method="POST" data-netlify="true" class="mx-auto" style="max-width:600px">
-        <input type="hidden" name="form-name" value="contact">
-        <div class="mb-3">
-          <label class="form-label">Name</label>
-          <input type="text" class="form-control" name="name" required>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container py-5 text-center">
+    <span class="badge badge-soft rounded-pill px-3 py-2">Say hello</span>
+    <h1 class="display-5 fw-bold mt-3">Let’s <span class="text-gradient">build something</span> together</h1>
+    <p class="lead text-weak">I usually respond within 24 hours.</p>
+  </div>
+</header>
+
+<!-- CONTACT SECTION -->
+<section class="section">
+  <div class="container">
+    <div class="row g-4">
+      <!-- Form -->
+      <div class="col-lg-7">
+        <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="glass p-4">
+          <input type="hidden" name="form-name" value="contact">
+          <p class="d-none"><label>Don’t fill this: <input name="bot-field"></label></p>
+
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label required">Name</label>
+              <input type="text" class="form-control" name="name" placeholder="Your name" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label required">Email</label>
+              <input type="email" class="form-control" name="email" placeholder="you@example.com" required>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Subject</label>
+              <input type="text" class="form-control" name="subject" placeholder="What’s this about?">
+            </div>
+            <div class="col-12">
+              <label class="form-label required">Message</label>
+              <textarea class="form-control" name="message" rows="5" placeholder="Tell me about your project…" required></textarea>
+            </div>
+            <div class="col-12 d-flex align-items-center gap-3">
+              <button class="btn btn-primary btn-lg" type="submit"><i class="bi bi-send me-2"></i>Send</button>
+              <small class="text-weak">Powered by Netlify Forms</small>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Contact Info + Map -->
+      <div class="col-lg-5">
+        <div class="card-glow p-4 mb-4">
+          <h5 class="fw-bold mb-3">Reach me</h5>
+          <div class="d-flex align-items-center mb-2"><i class="bi bi-geo-alt text-primary me-3"></i> Hyderabad, IN</div>
+          <div class="d-flex align-items-center mb-2"><i class="bi bi-envelope text-primary me-3"></i> hello@example.com</div>
+          <div class="d-flex align-items-center mb-2"><i class="bi bi-telephone text-primary me-3"></i> +91 90000 00000</div>
+          <div class="d-flex gap-3 mt-3">
+            <a class="btn btn-outline-light btn-sm" href="#"><i class="bi bi-github me-1"></i>GitHub</a>
+            <a class="btn btn-outline-light btn-sm" href="#"><i class="bi bi-linkedin me-1"></i>LinkedIn</a>
+            <a class="btn btn-outline-light btn-sm" href="#"><i class="bi bi-twitter-x me-1"></i>Twitter</a>
+          </div>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Email</label>
-          <input type="email" class="form-control" name="email" required>
+        <div class="map-wrap ratio ratio-16x9">
+          <iframe
+            src="https://www.google.com/maps?q=Hyderabad&output=embed"
+            title="Map — Hyderabad"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Message</label>
-          <textarea class="form-control" name="message" rows="4" required></textarea>
-        </div>
-        <button class="btn btn-primary" type="submit">Send</button>
-      </form>
+      </div>
     </div>
-  </section>
-  <footer class="border-top py-3 text-center">
-    <div class="container"><small>© 2025 UI Remix Project</small></div>
-  </footer>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-5">
+  <div class="container text-center text-md-start d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+    <div>© <span id="year"></span> UI Remix Project</div>
+    <div class="d-flex gap-3">
+      <a href="#"><i class="bi bi-github"></i></a>
+      <a href="#"><i class="bi bi-linkedin"></i></a>
+      <a href="#"><i class="bi bi-twitter-x"></i></a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>document.getElementById('year').textContent=new Date().getFullYear()</script>
 </body>
 </html>
