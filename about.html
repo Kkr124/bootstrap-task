@@ -29,7 +29,7 @@
 
   /* FULL-SCREEN HERO */
   .hero{
-    min-height:100svh;             /* fills the screen on mobile & desktop */
+    min-height:100svh;
     display:grid; place-items:center;
     position:relative; overflow:hidden;
     background:
@@ -79,29 +79,77 @@
     background:linear-gradient(135deg, rgba(14,165,233,.18), rgba(108,92,231,.18));
   }
 
-  /* HORIZONTAL STEPPER TIMELINE */
-  .milestones{position:relative}
-  .steps{display:grid; grid-template-columns:1fr; gap:1.25rem}
-  .step{
-    position:relative; padding:1.25rem 1.25rem 1rem;
-    background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
-    border:1px solid rgba(255,255,255,.14); border-radius:1rem;
+  /* 🔥 NEW ZIG-ZAG TIMELINE */
+  .v-timeline{
+    display:grid;
+    grid-template-columns: 1fr 48px 1fr; /* left | rail | right */
+    gap:2rem 1.25rem;
+    position:relative;
   }
-  .step .dot{
-    width:16px;height:16px;border-radius:50%;
+  /* center rail */
+  .v-timeline::before{
+    content:"";
+    grid-column:2;
+    grid-row:1 / -1;
+    width:4px; justify-self:center;
+    background:linear-gradient(180deg,var(--cyan),var(--violet));
+    filter:drop-shadow(0 0 10px rgba(14,165,233,.45));
+    border-radius:999px;
+  }
+  /* milestone dot */
+  .vt-dot{
+    grid-column:2;
+    width:18px;height:18px;border-radius:50%;
     background:var(--cyan);
-    box-shadow:0 0 0 6px rgba(14,165,233,.18), 0 0 16px rgba(14,165,233,.45);
-    position:absolute; left:1.25rem; top:-8px;
+    box-shadow:0 0 0 6px rgba(14,165,233,.18), 0 0 18px rgba(14,165,233,.55);
+    justify-self:center; align-self:center;
+    z-index:1;
   }
-  @media (min-width: 992px){
-    .steps{grid-template-columns:repeat(4,1fr)}
-    .milestones::before{
-      content:""; position:absolute; left:6%; right:6%; top:22px; height:3px;
-      background:linear-gradient(90deg, var(--cyan), var(--violet));
-      box-shadow:0 0 18px rgba(14,165,233,.35);
+
+  .vt-card{
+    background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+    border:1px solid rgba(255,255,255,.14);
+    border-radius:1rem;
+    padding:1.25rem;
+    position:relative;
+  }
+  .vt-card h5{margin:0 0 .25rem}
+  .vt-meta{font-size:.9rem;color:var(--muted);margin-bottom:.35rem}
+  .vt-badge{
+    position:absolute; top:-12px;
+    background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.18);
+    padding:.25rem .6rem; border-radius:999px; font-size:.8rem
+  }
+  /* arrows pointing to the rail */
+  .vt-card::after{
+    content:""; position:absolute; top:18px; width:0; height:0; border:10px solid transparent;
+    filter:drop-shadow(0 2px 3px rgba(0,0,0,.2));
+  }
+
+  /* left item */
+  .vt-left{grid-column:1}
+  .vt-left .vt-badge{right:-.5rem}
+  .vt-left::after{right:-20px; border-left-color:rgba(255,255,255,.10)}
+  /* right item */
+  .vt-right{grid-column:3}
+  .vt-right .vt-badge{left:-.5rem}
+  .vt-right::after{left:-20px; border-right-color:rgba(255,255,255,.10)}
+
+  /* mobile: stack to one column, rail goes left */
+  @media (max-width: 991.98px){
+    .v-timeline{
+      grid-template-columns: 28px 1fr; /* rail | content */
+      gap:1rem 1rem;
     }
-    .step{padding-top:1.75rem}
-    .step .dot{left:calc(50% - 8px); top:-18px}
+    .v-timeline::before{
+      grid-column:1; justify-self:center; width:3px;
+    }
+    .vt-dot{grid-column:1}
+    .vt-left, .vt-right{
+      grid-column:2;
+    }
+    .vt-left .vt-badge, .vt-right .vt-badge{left:0; right:auto}
+    .vt-left::after, .vt-right::after{display:none}
   }
 
   /* FOOTER */
@@ -200,44 +248,50 @@
   </div>
 </section>
 
-<!-- TIMELINE (HORIZONTAL STEPPER) -->
+<!-- 🎯 NEW ZIG-ZAG TIMELINE -->
 <section id="timeline" class="section">
   <div class="container">
     <div class="text-center mb-5">
       <h2 class="fw-bold">Project Timeline</h2>
-      <p class="text-weak">Milestones at a glance (auto-stacks on mobile).</p>
+      <p class="text-weak">Alternating cards with a glowing center rail. Stacks on mobile.</p>
     </div>
 
-    <div class="milestones">
-      <div class="steps">
-        <div class="step">
-          <span class="dot"></span>
-          <h6 class="mb-1 text-uppercase text-weak">Week 1</h6>
-          <h5 class="fw-bold mb-1">Plan & Wireframe</h5>
-          <p class="mb-0 text-weak">Pick components, map sections, define spacing & type scale.</p>
-        </div>
-
-        <div class="step">
-          <span class="dot"></span>
-          <h6 class="mb-1 text-uppercase text-weak">Week 2</h6>
-          <h5 class="fw-bold mb-1">Build Core Pages</h5>
-          <p class="mb-0 text-weak">Home, About, Contact with utilities-first layout.</p>
-        </div>
-
-        <div class="step">
-          <span class="dot"></span>
-          <h6 class="mb-1 text-uppercase text-weak">Week 3</h6>
-          <h5 class="fw-bold mb-1">Polish & A11y</h5>
-          <p class="mb-0 text-weak">States, focus rings, color contrast, and semantics.</p>
-        </div>
-
-        <div class="step">
-          <span class="dot"></span>
-          <h6 class="mb-1 text-uppercase text-weak">Week 4</h6>
-          <h5 class="fw-bold mb-1">Deploy</h5>
-          <p class="mb-0 text-weak">GitHub Pages or Netlify (forms auto-detected).</p>
-        </div>
+    <div class="v-timeline">
+      <!-- Item 1 (left) -->
+      <div class="vt-card vt-left">
+        <span class="vt-badge">Week 1</span>
+        <div class="vt-meta">Planning & Research</div>
+        <h5>Plan & Wireframe</h5>
+        <p class="mb-0 text-weak">Pick components, map sections, define spacing & type scale.</p>
       </div>
+      <div class="vt-dot"></div>
+
+      <!-- Item 2 (right) -->
+      <div class="vt-card vt-right">
+        <span class="vt-badge">Week 2</span>
+        <div class="vt-meta">Build</div>
+        <h5>Core Pages</h5>
+        <p class="mb-0 text-weak">Home, About, Contact using utilities-first layout.</p>
+      </div>
+      <div class="vt-dot"></div>
+
+      <!-- Item 3 (left) -->
+      <div class="vt-card vt-left">
+        <span class="vt-badge">Week 3</span>
+        <div class="vt-meta">QA & A11y</div>
+        <h5>Polish & Accessibility</h5>
+        <p class="mb-0 text-weak">States, focus rings, color contrast, semantics & copy edits.</p>
+      </div>
+      <div class="vt-dot"></div>
+
+      <!-- Item 4 (right) -->
+      <div class="vt-card vt-right">
+        <span class="vt-badge">Week 4</span>
+        <div class="vt-meta">Deploy</div>
+        <h5>Launch</h5>
+        <p class="mb-0 text-weak">GitHub Pages or Netlify (forms auto-detected).</p>
+      </div>
+      <div class="vt-dot"></div>
     </div>
   </div>
 </section>
