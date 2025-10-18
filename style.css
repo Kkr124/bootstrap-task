@@ -1,0 +1,3 @@
+:root { --brand: #0d6efd; }
+body { font-family: system-ui, sans-serif; }
+.bg-gradient { background: linear-gradient(180deg, #fff 0%, #f8f9fa 100%); }
