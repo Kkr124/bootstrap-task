@@ -84,40 +84,73 @@
   .shine{position:absolute; inset:0; background:linear-gradient(120deg, transparent 20%, rgba(255,255,255,.14) 40%, transparent 60%); transform:translateX(-100%); transition: transform .6s cubic-bezier(.2,.6,.2,1)}
   .thumb:hover .shine{transform:translateX(100%)}
 
-  /* HORIZONTAL STEPPER TIMELINE */
-  .milestones{
-    --line:linear-gradient(90deg, var(--cyan), var(--violet));
-    position:relative;
-  }
-  .steps{
-    display:grid;
-    grid-template-columns:1fr;   /* mobile stack */
-    gap:1.5rem;
-  }
-  .step{
-    position:relative;
-    background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
-    border:1px solid rgba(255,255,255,.14);
-    border-radius:1rem;
-    padding:1.25rem 1.25rem 1rem 1.25rem;
-  }
-  .step .dot{
-    width:16px;height:16px;border-radius:50%;
-    background:var(--cyan);
-    box-shadow:0 0 0 6px rgba(14,165,233,.18), 0 0 16px rgba(14,165,233,.45);
-    position:absolute;left:1.25rem;top:-8px;
-  }
-
-  /* Desktop: horizontal line + equal columns */
-  @media (min-width: 992px){
-    .steps{grid-template-columns: repeat(3, 1fr); align-items:start}
-    .milestones::before{
-      content:""; position:absolute; left:6%; right:6%; top:22px; height:3px;
-      background: var(--line); box-shadow:0 0 18px rgba(14,165,233,.35);
-    }
-    .step{padding-top:1.75rem}
-    .step .dot{left:calc(50% - 8px); top:-18px}
-  }
+/* === Refined Zig-Zag Timeline === */
+.v-timeline{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  gap:3rem;
+  margin-top:3rem;
+}
+.v-line{
+  position:absolute;
+  left:50%;
+  top:0;
+  bottom:0;
+  width:4px;
+  transform:translateX(-50%);
+  background:linear-gradient(180deg,var(--cyan),var(--violet));
+  border-radius:4px;
+  box-shadow:0 0 16px rgba(14,165,233,.45);
+  z-index:0;
+}
+.v-item{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  position:relative;
+  z-index:1;
+}
+.v-item:nth-child(even){flex-direction:row-reverse;}
+.v-card{
+  width:45%;
+  background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.05));
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:1rem;
+  padding:1.5rem;
+  box-shadow:0 6px 30px rgba(0,0,0,.25);
+  position:relative;
+}
+.v-dot{
+  position:absolute;
+  top:2rem;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:18px;height:18px;
+  background:var(--cyan);
+  border-radius:50%;
+  box-shadow:0 0 0 6px rgba(14,165,233,.18),0 0 20px rgba(14,165,233,.45);
+}
+.v-item:nth-child(even) .v-card::after,
+.v-item:nth-child(odd) .v-card::after{
+  content:"";
+  position:absolute;top:2rem;width:0;height:0;
+  border:10px solid transparent;
+}
+.v-item:nth-child(odd) .v-card::after{
+  right:-20px;border-left-color:rgba(255,255,255,.12);
+}
+.v-item:nth-child(even) .v-card::after{
+  left:-20px;border-right-color:rgba(255,255,255,.12);
+}
+@media(max-width:992px){
+  .v-line{left:16px;}
+  .v-item,.v-item:nth-child(even){flex-direction:row;margin-left:1.5rem;}
+  .v-card{width:100%}
+  .v-dot{left:16px;}
+  .v-item:nth-child(even) .v-card::after,
+  .v-item:nth-child(odd) .v-card::after{display:none}
+}
 
   /* FOOTER */
   footer{background:#0a0f18}
@@ -247,41 +280,56 @@
   </div>
 </section>
 
-<!-- ===== HORIZONTAL TIMELINE (STEPPER) ===== -->
-<section id="timeline" class="section" style="background:#0f172a">
+<section id="timeline" class="section">
   <div class="container">
     <div class="text-center mb-5">
-      <h2 class="fw-bold">Timeline</h2>
-      <p class="text-weak">Milestones at a glance.</p>
+      <h2 class="fw-bold">Project Timeline</h2>
+      <p class="text-weak">Perfectly aligned center rail with glowing milestones.</p>
     </div>
 
-    <div class="milestones">
-      <div class="steps">
-        <div class="step">
-          <span class="dot"></span>
-          <h6 class="mb-1 text-uppercase text-weak">2025</h6>
-          <h5 class="fw-bold mb-1">EngineersCompass — Founder</h5>
-          <p class="mb-0 text-weak">EdTech landing pages, portals & internal tools.</p>
-        </div>
+    <div class="v-timeline">
+      <span class="v-line"></span>
 
-        <div class="step">
-          <span class="dot"></span>
-          <h6 class="mb-1 text-uppercase text-weak">2024</h6>
-          <h5 class="fw-bold mb-1">Phinco Elite — Developer</h5>
-          <p class="mb-0 text-weak">Workshop pages, LMS prototypes, analytics dashboards.</p>
-        </div>
-
-        <div class="step">
-          <span class="dot"></span>
-          <h6 class="mb-1 text-uppercase text-weak">2023</h6>
-          <h5 class="fw-bold mb-1">Freelance & College</h5>
-          <p class="mb-0 text-weak">Client sites and UI experiments with Bootstrap 5.</p>
+      <div class="v-item">
+        <span class="v-dot"></span>
+        <div class="v-card">
+          <h6 class="text-uppercase text-weak mb-1">Week 1</h6>
+          <h5 class="fw-bold mb-1">Planning & Wireframes</h5>
+          <p class="text-weak mb-0">Defined layout, visual hierarchy, and brand guidelines.</p>
         </div>
       </div>
-    </div>
 
+      <div class="v-item">
+        <span class="v-dot"></span>
+        <div class="v-card">
+          <h6 class="text-uppercase text-weak mb-1">Week 2</h6>
+          <h5 class="fw-bold mb-1">Development Sprint</h5>
+          <p class="text-weak mb-0">Implemented Home, About, and Contact pages using Bootstrap 5.</p>
+        </div>
+      </div>
+
+      <div class="v-item">
+        <span class="v-dot"></span>
+        <div class="v-card">
+          <h6 class="text-uppercase text-weak mb-1">Week 3</h6>
+          <h5 class="fw-bold mb-1">Polish & Accessibility</h5>
+          <p class="text-weak mb-0">Enhanced animations, semantic markup, and responsive visuals.</p>
+        </div>
+      </div>
+
+      <div class="v-item">
+        <span class="v-dot"></span>
+        <div class="v-card">
+          <h6 class="text-uppercase text-weak mb-1">Week 4</h6>
+          <h5 class="fw-bold mb-1">Launch & Deployment</h5>
+          <p class="text-weak mb-0">Deployed live via GitHub Pages & Netlify for dynamic form support.</p>
+        </div>
+      </div>
+
+    </div>
   </div>
 </section>
+
 
 <!-- ===== PROJECTS ===== -->
 <section id="projects" class="section">
