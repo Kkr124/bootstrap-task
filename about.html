@@ -79,78 +79,73 @@
     background:linear-gradient(135deg, rgba(14,165,233,.18), rgba(108,92,231,.18));
   }
 
-  /* 🔥 NEW ZIG-ZAG TIMELINE */
-  .v-timeline{
-    display:grid;
-    grid-template-columns: 1fr 48px 1fr; /* left | rail | right */
-    gap:2rem 1.25rem;
-    position:relative;
-  }
-  /* center rail */
-  .v-timeline::before{
-    content:"";
-    grid-column:2;
-    grid-row:1 / -1;
-    width:4px; justify-self:center;
-    background:linear-gradient(180deg,var(--cyan),var(--violet));
-    filter:drop-shadow(0 0 10px rgba(14,165,233,.45));
-    border-radius:999px;
-  }
-  /* milestone dot */
-  .vt-dot{
-    grid-column:2;
-    width:18px;height:18px;border-radius:50%;
-    background:var(--cyan);
-    box-shadow:0 0 0 6px rgba(14,165,233,.18), 0 0 18px rgba(14,165,233,.55);
-    justify-self:center; align-self:center;
-    z-index:1;
-  }
-
-  .vt-card{
-    background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
-    border:1px solid rgba(255,255,255,.14);
-    border-radius:1rem;
-    padding:1.25rem;
-    position:relative;
-  }
-  .vt-card h5{margin:0 0 .25rem}
-  .vt-meta{font-size:.9rem;color:var(--muted);margin-bottom:.35rem}
-  .vt-badge{
-    position:absolute; top:-12px;
-    background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.18);
-    padding:.25rem .6rem; border-radius:999px; font-size:.8rem
-  }
-  /* arrows pointing to the rail */
-  .vt-card::after{
-    content:""; position:absolute; top:18px; width:0; height:0; border:10px solid transparent;
-    filter:drop-shadow(0 2px 3px rgba(0,0,0,.2));
-  }
-
-  /* left item */
-  .vt-left{grid-column:1}
-  .vt-left .vt-badge{right:-.5rem}
-  .vt-left::after{right:-20px; border-left-color:rgba(255,255,255,.10)}
-  /* right item */
-  .vt-right{grid-column:3}
-  .vt-right .vt-badge{left:-.5rem}
-  .vt-right::after{left:-20px; border-right-color:rgba(255,255,255,.10)}
-
-  /* mobile: stack to one column, rail goes left */
-  @media (max-width: 991.98px){
-    .v-timeline{
-      grid-template-columns: 28px 1fr; /* rail | content */
-      gap:1rem 1rem;
-    }
-    .v-timeline::before{
-      grid-column:1; justify-self:center; width:3px;
-    }
-    .vt-dot{grid-column:1}
-    .vt-left, .vt-right{
-      grid-column:2;
-    }
-    .vt-left .vt-badge, .vt-right .vt-badge{left:0; right:auto}
-    .vt-left::after, .vt-right::after{display:none}
-  }
+ /* === Refined Zig-Zag Timeline === */
+.v-timeline{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  gap:3rem;
+  margin-top:3rem;
+}
+.v-line{
+  position:absolute;
+  left:50%;
+  top:0;
+  bottom:0;
+  width:4px;
+  transform:translateX(-50%);
+  background:linear-gradient(180deg,var(--cyan),var(--violet));
+  border-radius:4px;
+  box-shadow:0 0 16px rgba(14,165,233,.45);
+  z-index:0;
+}
+.v-item{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  position:relative;
+  z-index:1;
+}
+.v-item:nth-child(even){flex-direction:row-reverse;}
+.v-card{
+  width:45%;
+  background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.05));
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:1rem;
+  padding:1.5rem;
+  box-shadow:0 6px 30px rgba(0,0,0,.25);
+  position:relative;
+}
+.v-dot{
+  position:absolute;
+  top:2rem;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:18px;height:18px;
+  background:var(--cyan);
+  border-radius:50%;
+  box-shadow:0 0 0 6px rgba(14,165,233,.18),0 0 20px rgba(14,165,233,.45);
+}
+.v-item:nth-child(even) .v-card::after,
+.v-item:nth-child(odd) .v-card::after{
+  content:"";
+  position:absolute;top:2rem;width:0;height:0;
+  border:10px solid transparent;
+}
+.v-item:nth-child(odd) .v-card::after{
+  right:-20px;border-left-color:rgba(255,255,255,.12);
+}
+.v-item:nth-child(even) .v-card::after{
+  left:-20px;border-right-color:rgba(255,255,255,.12);
+}
+@media(max-width:992px){
+  .v-line{left:16px;}
+  .v-item,.v-item:nth-child(even){flex-direction:row;margin-left:1.5rem;}
+  .v-card{width:100%}
+  .v-dot{left:16px;}
+  .v-item:nth-child(even) .v-card::after,
+  .v-item:nth-child(odd) .v-card::after{display:none}
+}
 
   /* FOOTER */
   footer{background:#0a0f18}
@@ -248,50 +243,52 @@
   </div>
 </section>
 
-<!-- 🎯 NEW ZIG-ZAG TIMELINE -->
 <section id="timeline" class="section">
   <div class="container">
     <div class="text-center mb-5">
       <h2 class="fw-bold">Project Timeline</h2>
-      <p class="text-weak">Alternating cards with a glowing center rail. Stacks on mobile.</p>
+      <p class="text-weak">Perfectly aligned center rail with glowing milestones.</p>
     </div>
 
     <div class="v-timeline">
-      <!-- Item 1 (left) -->
-      <div class="vt-card vt-left">
-        <span class="vt-badge">Week 1</span>
-        <div class="vt-meta">Planning & Research</div>
-        <h5>Plan & Wireframe</h5>
-        <p class="mb-0 text-weak">Pick components, map sections, define spacing & type scale.</p>
-      </div>
-      <div class="vt-dot"></div>
+      <span class="v-line"></span>
 
-      <!-- Item 2 (right) -->
-      <div class="vt-card vt-right">
-        <span class="vt-badge">Week 2</span>
-        <div class="vt-meta">Build</div>
-        <h5>Core Pages</h5>
-        <p class="mb-0 text-weak">Home, About, Contact using utilities-first layout.</p>
+      <div class="v-item">
+        <span class="v-dot"></span>
+        <div class="v-card">
+          <h6 class="text-uppercase text-weak mb-1">Week 1</h6>
+          <h5 class="fw-bold mb-1">Planning & Wireframes</h5>
+          <p class="text-weak mb-0">Defined layout, visual hierarchy, and brand guidelines.</p>
+        </div>
       </div>
-      <div class="vt-dot"></div>
 
-      <!-- Item 3 (left) -->
-      <div class="vt-card vt-left">
-        <span class="vt-badge">Week 3</span>
-        <div class="vt-meta">QA & A11y</div>
-        <h5>Polish & Accessibility</h5>
-        <p class="mb-0 text-weak">States, focus rings, color contrast, semantics & copy edits.</p>
+      <div class="v-item">
+        <span class="v-dot"></span>
+        <div class="v-card">
+          <h6 class="text-uppercase text-weak mb-1">Week 2</h6>
+          <h5 class="fw-bold mb-1">Development Sprint</h5>
+          <p class="text-weak mb-0">Implemented Home, About, and Contact pages using Bootstrap 5.</p>
+        </div>
       </div>
-      <div class="vt-dot"></div>
 
-      <!-- Item 4 (right) -->
-      <div class="vt-card vt-right">
-        <span class="vt-badge">Week 4</span>
-        <div class="vt-meta">Deploy</div>
-        <h5>Launch</h5>
-        <p class="mb-0 text-weak">GitHub Pages or Netlify (forms auto-detected).</p>
+      <div class="v-item">
+        <span class="v-dot"></span>
+        <div class="v-card">
+          <h6 class="text-uppercase text-weak mb-1">Week 3</h6>
+          <h5 class="fw-bold mb-1">Polish & Accessibility</h5>
+          <p class="text-weak mb-0">Enhanced animations, semantic markup, and responsive visuals.</p>
+        </div>
       </div>
-      <div class="vt-dot"></div>
+
+      <div class="v-item">
+        <span class="v-dot"></span>
+        <div class="v-card">
+          <h6 class="text-uppercase text-weak mb-1">Week 4</h6>
+          <h5 class="fw-bold mb-1">Launch & Deployment</h5>
+          <p class="text-weak mb-0">Deployed live via GitHub Pages & Netlify for dynamic form support.</p>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
