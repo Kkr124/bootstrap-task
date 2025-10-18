@@ -13,23 +13,25 @@
   :root{
     --violet:#6c5ce7;
     --cyan:#0ea5e9;
-    --rose:#ff5e9c;
     --ink:#0b0f1a;
     --ink-2:#0f172a;
     --muted:#9aa6c2;
     --radius-xl:1.25rem;
-    --radius-2xl:2rem;
   }
+
   html{scroll-behavior:smooth}
   body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;background:#0a0f18;color:#e6ecff}
+  .section{padding-block:5.5rem}
 
-  /* ========== NAVBAR ========== */
+  /* NAVBAR */
   .navbar{backdrop-filter:saturate(180%) blur(10px)}
   .navbar .nav-link{font-weight:600}
 
-  /* ========== HERO (animated gradient + floating glass) ========== */
+  /* FULL-SCREEN HERO */
   .hero{
     position:relative;
+    min-height:100svh;           /* <— ensures full screen on mobile too */
+    display:grid; place-items:center;
     overflow:hidden;
     background:
       radial-gradient(1200px 600px at -10% -10%, rgba(108,92,231,.25), transparent 60%),
@@ -39,40 +41,27 @@
   .hero::before, .hero::after{
     content:""; position:absolute; inset:-40%;
     background: conic-gradient(from 0deg, rgba(108,92,231,.18), rgba(14,165,233,.18), rgba(255,94,156,.12), rgba(108,92,231,.18));
-    filter: blur(90px); animation: swirl 18s linear infinite;
+    filter: blur(90px); animation: swirl 22s linear infinite;
   }
-  .hero::after{animation-direction: reverse; animation-duration: 24s; opacity:.7}
+  .hero::after{animation-direction: reverse; animation-duration: 28s; opacity:.7}
   @keyframes swirl{to{transform: rotate(360deg)}}
 
-  .section{padding-block:5.5rem}
-  .glass{
-    background:linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.06));
+  .hero-card{
+    background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
     border:1px solid rgba(255,255,255,.14);
     border-radius:var(--radius-xl);
     box-shadow:0 24px 60px rgba(0,0,0,.35);
   }
   .badge-soft{
-    background:rgba(255,255,255,.12);
-    border:1px solid rgba(255,255,255,.18);
-    color:#e9edff;
+    background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.18); color:#e9edff
   }
   .text-gradient{
     background:linear-gradient(90deg,var(--cyan),var(--violet));
     -webkit-background-clip:text; background-clip:text; color:transparent;
   }
-  .hero-stat{
-    border-radius:1rem;
-    border:1px solid rgba(255,255,255,.12);
-    background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
-  }
+  .text-weak{color:var(--muted)}
 
-  /* ========== WAVE DIVIDERS ========== */
-  .wave-top{position:relative}
-  .wave-top svg{display:block;transform:translateY(1px)}
-  .wave-bottom{position:relative}
-  .wave-bottom svg{display:block;transform:translateY(-1px)}
-
-  /* ========== SPOTLIGHT CARDS ========== */
+  /* CARDS / HOVER */
   .card, .btn{border-radius:var(--radius-xl)}
   .card-glow{
     background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
@@ -89,53 +78,51 @@
     display:grid;place-items:center;
     background:linear-gradient(135deg, rgba(14,165,233,.18), rgba(108,92,231,.18));
   }
-  .text-weak{color:var(--muted)}
-
-  /* ========== NEON TIMELINE ========== */
-  .timeline{position:relative;padding-left:2rem}
-  .timeline::before{
-    content:""; position:absolute; left:1.1rem; top:0; bottom:0; width:2px;
-    background:linear-gradient(180deg, var(--cyan), var(--violet)); box-shadow:0 0 16px rgba(14,165,233,.35);
-  }
-  .tl{position:relative;margin-bottom:1.75rem}
-  .tl::before{
-    content:""; position:absolute; left:-.15rem; top:.35rem; width:14px; height:14px; border-radius:50%;
-    background:var(--cyan); box-shadow:0 0 0 5px rgba(14,165,233,.18), 0 0 16px rgba(14,165,233,.5);
-  }
-
-  /* ========== PROJECTS (tilt + shine) ========== */
   .thumb{border-radius:1rem; overflow:hidden; position:relative}
   .thumb img{transition: transform .5s ease}
   .thumb:hover img{transform: scale(1.06)}
-  .shine{
-    position:absolute; inset:0; background:linear-gradient(120deg, transparent 20%, rgba(255,255,255,.14) 40%, transparent 60%);
-    transform:translateX(-100%); transition: transform .6s cubic-bezier(.2,.6,.2,1);
-  }
+  .shine{position:absolute; inset:0; background:linear-gradient(120deg, transparent 20%, rgba(255,255,255,.14) 40%, transparent 60%); transform:translateX(-100%); transition: transform .6s cubic-bezier(.2,.6,.2,1)}
   .thumb:hover .shine{transform:translateX(100%)}
 
-  .tilt{transition: transform .2s ease}
-  .tilt:hover{transform: perspective(900px) rotateX(2deg) rotateY(-3deg)}
-
-  /* ========== RADIAL SKILL DIALS (pure CSS) ========== */
-  .dial{
-    --size:110px; --thick:10px; --val:75;
-    width:var(--size); height:var(--size); border-radius:50%;
-    display:grid; place-items:center; position:relative; color:#fff;
-    background:conic-gradient(var(--cyan) calc(var(--val)*1%), #1f2937 calc(var(--val)*1%));
+  /* HORIZONTAL STEPPER TIMELINE */
+  .milestones{
+    --line:linear-gradient(90deg, var(--cyan), var(--violet));
+    position:relative;
   }
-  .dial::before{
-    content:""; position:absolute; inset:calc(var(--thick)); border-radius:50%; background:#0e1320;
-    box-shadow: inset 0 0 40px rgba(0,0,0,.5);
+  .steps{
+    display:grid;
+    grid-template-columns:1fr;   /* mobile stack */
+    gap:1.5rem;
   }
-  .dial span{position:relative; font-weight:700}
+  .step{
+    position:relative;
+    background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+    border:1px solid rgba(255,255,255,.14);
+    border-radius:1rem;
+    padding:1.25rem 1.25rem 1rem 1.25rem;
+  }
+  .step .dot{
+    width:16px;height:16px;border-radius:50%;
+    background:var(--cyan);
+    box-shadow:0 0 0 6px rgba(14,165,233,.18), 0 0 16px rgba(14,165,233,.45);
+    position:absolute;left:1.25rem;top:-8px;
+  }
 
-  /* ========== FOOTER ========== */
+  /* Desktop: horizontal line + equal columns */
+  @media (min-width: 992px){
+    .steps{grid-template-columns: repeat(3, 1fr); align-items:start}
+    .milestones::before{
+      content:""; position:absolute; left:6%; right:6%; top:22px; height:3px;
+      background: var(--line); box-shadow:0 0 18px rgba(14,165,233,.35);
+    }
+    .step{padding-top:1.75rem}
+    .step .dot{left:calc(50% - 8px); top:-18px}
+  }
+
+  /* FOOTER */
   footer{background:#0a0f18}
   footer a{color:#cbd5e1;text-decoration:none}
   footer a:hover{color:#fff}
-
-  /* Small util */
-  .shadow-soft{box-shadow:0 10px 28px rgba(2,6,23,.12)}
 </style>
 </head>
 <body>
@@ -148,9 +135,8 @@
     <div class="collapse navbar-collapse" id="nav">
       <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
         <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-        <li class="nav-item"><a class="nav-link" href="#highlights">Highlights</a></li>
         <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
-        <li class="nav-item"><a class="nav-link" href="#experience">Timeline</a></li>
+        <li class="nav-item"><a class="nav-link" href="#timeline">Timeline</a></li>
         <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
         <li class="nav-item"><a class="btn btn-primary ms-lg-2" href="#contact"><i class="bi bi-send me-1"></i>Contact</a></li>
       </ul>
@@ -158,42 +144,35 @@
   </div>
 </nav>
 
-<!-- ===== HERO ===== -->
+<!-- ===== FULL-SCREEN HERO ===== -->
 <header class="hero">
-  <div class="container section">
+  <div class="container py-5">
     <div class="row align-items-center g-4">
       <div class="col-lg-7">
         <span class="badge badge-soft rounded-pill px-3 py-2">Developer • UI Crafter • Founder @ EngineersCompass</span>
-        <h1 class="display-5 fw-bold mt-3">I build <span class="text-gradient">high-impact</span> web interfaces that are fast, clean, and delightful.</h1>
-        <p class="lead text-weak">Bootstrap 5 + minimal CSS • Accessibility • Performance • Clear hierarchy.</p>
+        <h1 class="display-4 fw-bold mt-3">
+          I build <span class="text-gradient">high-impact</span> web interfaces — fast, accessible, and beautiful.
+        </h1>
+        <p class="lead text-weak">Bootstrap 5 + minimal CSS • Performance • Clear hierarchy • A11y.</p>
         <div class="d-flex gap-3 mt-3">
           <a href="#projects" class="btn btn-light btn-lg"><i class="bi bi-rocket-takeoff me-2"></i>View Work</a>
           <a href="#about" class="btn btn-outline-light btn-lg">Know me</a>
         </div>
-        <div class="row g-3 mt-4">
-          <div class="col-6 col-md-4"><div class="hero-stat p-3 text-center"><div class="fs-3 fw-bold">30+</div><div class="text-weak small">Projects</div></div></div>
-          <div class="col-6 col-md-4"><div class="hero-stat p-3 text-center"><div class="fs-3 fw-bold">12</div><div class="text-weak small">Clients</div></div></div>
-          <div class="col-6 col-md-4"><div class="hero-stat p-3 text-center"><div class="fs-3 fw-bold">100%</div><div class="text-weak small">On-time</div></div></div>
-        </div>
       </div>
       <div class="col-lg-5">
-        <div class="glass p-4">
+        <div class="hero-card p-4">
           <div class="d-flex align-items-center gap-3 mb-3">
             <div class="icon-wrap"><i class="bi bi-stars fs-4 text-white"></i></div>
-            <div><h5 class="mb-0">Signature</h5><small class="text-weak">Clarity, speed, polish</small></div>
+            <div><h5 class="mb-0">Signature</h5><small class="text-weak">Clarity • Speed • Polish</small></div>
           </div>
           <ul class="text-weak m-0 ps-3">
-            <li class="mb-2">Utility-first spacing & typography</li>
-            <li class="mb-2">Accessible forms, states & semantics</li>
-            <li>SEO-aware structure, green web vitals</li>
+            <li class="mb-2">Utility-first spacing & type scale</li>
+            <li class="mb-2">Accessible forms & focus states</li>
+            <li>SEO-aware structure & green vitals</li>
           </ul>
         </div>
       </div>
     </div>
-  </div>
-  <!-- wave divider -->
-  <div class="wave-bottom">
-    <svg width="100%" height="80" viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0,64 C360,16 1080,112 1440,48 L1440,160 L0,160 Z" fill="#0f172a"/></svg>
   </div>
 </header>
 
@@ -203,7 +182,7 @@
     <div class="row g-4 align-items-center">
       <div class="col-lg-6">
         <h2 class="fw-bold mb-2">About Me</h2>
-        <p class="lead text-weak">I’m Ram — a front-end-leaning developer who loves pixel-perfect layouts and tidy code. I turn ideas into fast, responsive, production-ready pages.</p>
+        <p class="lead text-weak">I’m Ram — a front-end-leaning developer who loves pixel-perfect layouts and tidy code. I turn ideas into responsive, production-ready pages.</p>
         <div class="row g-3 mt-2">
           <div class="col-sm-6"><div class="card-glow p-3 h-100">
             <div class="d-flex align-items-center gap-3">
@@ -220,102 +199,47 @@
         </div>
       </div>
       <div class="col-lg-6">
-        <div class="ratio ratio-16x9 rounded-4 overflow-hidden shadow-soft">
+        <div class="ratio ratio-16x9 rounded-4 overflow-hidden">
           <img src="https://images.unsplash.com/photo-1526378722484-bd91ca387e72?q=80&w=1400&auto=format&fit=crop" class="w-100 h-100 object-fit-cover" alt="workspace">
         </div>
       </div>
     </div>
   </div>
-  <div class="wave-bottom">
-    <svg width="100%" height="80" viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0,64 C360,16 1080,112 1440,48 L1440,160 L0,160 Z" fill="#0a0f18"/></svg>
-  </div>
 </section>
 
-<!-- ===== HIGHLIGHTS / METRICS ===== -->
-<section id="highlights" class="section">
-  <div class="container">
-    <div class="text-center mb-5">
-      <h2 class="fw-bold">Highlights</h2>
-      <p class="text-weak">Impact snapshots I’m proud of.</p>
-    </div>
-    <div class="row g-4">
-      <div class="col-md-4">
-        <div class="card-glow p-4 h-100 tilt">
-          <h3 class="fw-bold mb-1">3x</h3>
-          <div class="text-weak mb-2">Faster page loads</div>
-          <p class="mb-0">Optimized assets, trimmed DOM, and CDN delivery for speed.</p>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card-glow p-4 h-100 tilt">
-          <h3 class="fw-bold mb-1">+40%</h3>
-          <div class="text-weak mb-2">Better conversions</div>
-          <p class="mb-0">Clear CTAs, consistent spacing, and accessible forms.</p>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card-glow p-4 h-100 tilt">
-          <h3 class="fw-bold mb-1">90+ </h3>
-          <div class="text-weak mb-2">Lighthouse score</div>
-          <p class="mb-0">Performance & a11y improvements across pages.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== SKILLS (radial dials) ===== -->
-<section id="skills" class="section" style="background:#0f172a">
+<!-- ===== SKILLS ===== -->
+<section id="skills" class="section">
   <div class="container">
     <div class="text-center mb-5">
       <h2 class="fw-bold">Skills Snapshot</h2>
       <p class="text-weak">A quick visual of my strengths.</p>
     </div>
-    <div class="row g-4 justify-content-center text-center">
-      <div class="col-6 col-md-3">
-        <div class="dial mx-auto" style="--val:95;"><span>95%</span></div>
-        <div class="mt-2">HTML5</div>
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card-glow p-4 h-100">
+          <h5 class="fw-bold mb-3">Frontend</h5>
+          <div class="mb-2 d-flex justify-content-between"><span>HTML5</span><span>95%</span></div>
+          <div class="progress" style="height:.6rem;border-radius:999px"><div class="progress-bar" style="width:95%;background:linear-gradient(90deg,var(--cyan),var(--violet))"></div></div>
+          <div class="mt-3 mb-2 d-flex justify-content-between"><span>CSS / Bootstrap</span><span>92%</span></div>
+          <div class="progress" style="height:.6rem;border-radius:999px"><div class="progress-bar" style="width:92%;background:linear-gradient(90deg,var(--cyan),var(--violet))"></div></div>
+          <div class="mt-3 mb-2 d-flex justify-content-between"><span>JavaScript (Basics)</span><span>78%</span></div>
+          <div class="progress" style="height:.6rem;border-radius:999px"><div class="progress-bar" style="width:78%;background:linear-gradient(90deg,var(--cyan),var(--violet))"></div></div>
+        </div>
       </div>
-      <div class="col-6 col-md-3">
-        <div class="dial mx-auto" style="--val:92;"><span>92%</span></div>
-        <div class="mt-2">CSS / Bootstrap</div>
-      </div>
-      <div class="col-6 col-md-3">
-        <div class="dial mx-auto" style="--val:78;"><span>78%</span></div>
-        <div class="mt-2">JavaScript (Basics)</div>
-      </div>
-      <div class="col-6 col-md-3">
-        <div class="dial mx-auto" style="--val:88;"><span>88%</span></div>
-        <div class="mt-2">UI/UX</div>
-      </div>
-    </div>
-  </div>
-  <div class="wave-bottom">
-    <svg width="100%" height="80" viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0,64 C360,16 1080,112 1440,48 L1440,160 L0,160 Z" fill="#0a0f18"/></svg>
-  </div>
-</section>
-
-<!-- ===== TIMELINE ===== -->
-<section id="experience" class="section">
-  <div class="container">
-    <div class="text-center mb-5">
-      <h2 class="fw-bold">Timeline</h2>
-      <p class="text-weak">How I got here.</p>
-    </div>
-    <div class="row">
-      <div class="col-lg-10 mx-auto">
-        <div class="timeline">
-          <div class="tl">
-            <h5 class="mb-1">2025 — EngineersCompass (Founder)</h5>
-            <div class="text-weak">Built EdTech landing pages, portals, and internal tools.</div>
+      <div class="col-md-6">
+        <div class="card-glow p-4 h-100">
+          <h5 class="fw-bold mb-3">UI & Process</h5>
+          <div class="d-flex gap-3 align-items-center mb-2">
+            <div class="icon-wrap"><i class="bi bi-columns-gap"></i></div>
+            <div><strong>Design Systems</strong><div class="text-weak">Reusable sections & tokens</div></div>
           </div>
-          <div class="tl">
-            <h5 class="mb-1">2024 — Phinco Elite (Developer)</h5>
-            <div class="text-weak">Workshop pages, LMS prototypes, analytics dashboards.</div>
+          <div class="d-flex gap-3 align-items-center mb-2">
+            <div class="icon-wrap"><i class="bi bi-speedometer2"></i></div>
+            <div><strong>Performance</strong><div class="text-weak">Lightweight pages, CDN assets</div></div>
           </div>
-          <div class="tl">
-            <h5 class="mb-1">2023 — Freelance & College Projects</h5>
-            <div class="text-weak">Client sites and UI experiments using Bootstrap 5.</div>
+          <div class="d-flex gap-3 align-items-center">
+            <div class="icon-wrap"><i class="bi bi-shield-check"></i></div>
+            <div><strong>Accessibility</strong><div class="text-weak">WCAG-friendly patterns</div></div>
           </div>
         </div>
       </div>
@@ -323,89 +247,88 @@
   </div>
 </section>
 
+<!-- ===== HORIZONTAL TIMELINE (STEPPER) ===== -->
+<section id="timeline" class="section" style="background:#0f172a">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">Timeline</h2>
+      <p class="text-weak">Milestones at a glance.</p>
+    </div>
+
+    <div class="milestones">
+      <div class="steps">
+        <div class="step">
+          <span class="dot"></span>
+          <h6 class="mb-1 text-uppercase text-weak">2025</h6>
+          <h5 class="fw-bold mb-1">EngineersCompass — Founder</h5>
+          <p class="mb-0 text-weak">EdTech landing pages, portals & internal tools.</p>
+        </div>
+
+        <div class="step">
+          <span class="dot"></span>
+          <h6 class="mb-1 text-uppercase text-weak">2024</h6>
+          <h5 class="fw-bold mb-1">Phinco Elite — Developer</h5>
+          <p class="mb-0 text-weak">Workshop pages, LMS prototypes, analytics dashboards.</p>
+        </div>
+
+        <div class="step">
+          <span class="dot"></span>
+          <h6 class="mb-1 text-uppercase text-weak">2023</h6>
+          <h5 class="fw-bold mb-1">Freelance & College</h5>
+          <p class="mb-0 text-weak">Client sites and UI experiments with Bootstrap 5.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 <!-- ===== PROJECTS ===== -->
-<section id="projects" class="section" style="background:#0f172a">
+<section id="projects" class="section">
   <div class="container">
     <div class="text-center mb-5">
       <h2 class="fw-bold">Selected Projects</h2>
-      <p class="text-weak">Tappable case studies with shine & tilt.</p>
+      <p class="text-weak">Shine + tilt interactions.</p>
     </div>
 
     <div class="row g-4">
-      <!-- Project 1 -->
       <div class="col-md-6 col-lg-4">
-        <div class="card-glow h-100 tilt">
+        <div class="card-glow h-100">
           <div class="thumb"><img src="https://picsum.photos/seed/p1/900/600" class="w-100" alt="project"><span class="shine"></span></div>
           <div class="p-3">
             <h5 class="mb-1">EngineersCompass Landing</h5>
             <p class="text-weak mb-2">Hero + features + CTA; green vitals.</p>
             <div class="d-flex gap-2"><span class="badge text-bg-light">Bootstrap</span><span class="badge text-bg-light">SEO</span></div>
           </div>
-          <div class="px-3 pb-3">
-            <a class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#m1"><i class="bi bi-eye me-1"></i>Case Study</a>
-          </div>
         </div>
       </div>
-
-      <!-- Project 2 -->
       <div class="col-md-6 col-lg-4">
-        <div class="card-glow h-100 tilt">
+        <div class="card-glow h-100">
           <div class="thumb"><img src="https://picsum.photos/seed/p2/900/600" class="w-100" alt="project"><span class="shine"></span></div>
           <div class="p-3">
             <h5 class="mb-1">Analytics Dashboard</h5>
             <p class="text-weak mb-2">Card grid + accessible labels.</p>
             <div class="d-flex gap-2"><span class="badge text-bg-light">UI/UX</span><span class="badge text-bg-light">Bootstrap</span></div>
           </div>
-          <div class="px-3 pb-3">
-            <a class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#m2"><i class="bi bi-eye me-1"></i>Case Study</a>
-          </div>
         </div>
       </div>
-
-      <!-- Project 3 -->
       <div class="col-md-6 col-lg-4">
-        <div class="card-glow h-100 tilt">
+        <div class="card-glow h-100">
           <div class="thumb"><img src="https://picsum.photos/seed/p3/900/600" class="w-100" alt="project"><span class="shine"></span></div>
           <div class="p-3">
             <h5 class="mb-1">Course Microsite</h5>
             <p class="text-weak mb-2">Lightweight sections, clean copy.</p>
             <div class="d-flex gap-2"><span class="badge text-bg-light">Content</span><span class="badge text-bg-light">Bootstrap</span></div>
           </div>
-          <div class="px-3 pb-3">
-            <a class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#m3"><i class="bi bi-eye me-1"></i>Case Study</a>
-          </div>
         </div>
       </div>
     </div>
 
-    <!-- Modals -->
-    <div class="modal fade" id="m1" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content rounded-4">
-        <div class="modal-header"><h5 class="modal-title">EngineersCompass Landing — Case Study</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
-        <div class="modal-body"><ul><li>Hero + features + CTA</li><li>Green Web Vitals</li><li>Reusable sections</li></ul></div>
-      </div></div>
-    </div>
-    <div class="modal fade" id="m2" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content rounded-4">
-        <div class="modal-header"><h5 class="modal-title">Analytics Dashboard — Case Study</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
-        <div class="modal-body"><ul><li>Card grid layout</li><li>Accessible labels</li><li>Token-driven spacing</li></ul></div>
-      </div></div>
-    </div>
-    <div class="modal fade" id="m3" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content rounded-4">
-        <div class="modal-header"><h5 class="modal-title">Course Microsite — Case Study</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
-        <div class="modal-body"><ul><li>CDN assets</li><li>SEO friendly</li><li>Pages/Netlify deploy</li></ul></div>
-      </div></div>
-    </div>
-
-    <div class="wave-bottom">
-      <svg width="100%" height="80" viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0,64 C360,16 1080,112 1440,48 L1440,160 L0,160 Z" fill="#0a0f18"/></svg>
-    </div>
   </div>
 </section>
 
 <!-- ===== CONTACT ===== -->
-<section id="contact" class="section text-center">
+<section id="contact" class="section text-center" style="background:#0f172a">
   <div class="container">
     <h2 class="fw-bold">Let’s build something awesome</h2>
     <p class="text-weak mb-4">Open to internships, freelance, and collaborations.</p>
